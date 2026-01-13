@@ -22,8 +22,11 @@ class Blueprint < ApplicationRecord
   scope :light_query, -> { select(column_names - ["encoded_blueprint"]) }
   scope :with_associations, -> { includes(:game_version, :tags, :user, :collection, collection: :user) }
 
-  pg_search_scope :search_by_title,
+  pg_search_scope :search_by_title_and_description,
                   against: [:title],
+                  associated_against: {
+                    rich_text_description: [:body],
+                  },
                   using: {
                     tsearch: { prefix: true },
                   }

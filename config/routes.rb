@@ -59,6 +59,12 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
   end
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :blueprints, only: [:index, :show]
+    end
+  end
+
   authenticate :user do
     mount Shrine.presign_endpoint(:cache) => "/s3/params"
   end

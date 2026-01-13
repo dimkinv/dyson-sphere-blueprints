@@ -32,7 +32,7 @@ module BlueprintsFilters
     def filter(blueprints)
       # TODO: At some point when we have hundreds of thousands of blueprints, this will need to be optimized
       blueprints = blueprints.where(type: @filters[:type].classify) if @filters[:type].present?
-      blueprints = blueprints.search_by_title(@filters[:search]) if @filters[:search].present?
+      blueprints = blueprints.search_by_title_and_description(@filters[:search]) if @filters[:search].present?
 
       blueprints = blueprints.joins(:user).where("users.username ILIKE ?", "%#{@filters[:author]}%") if @filters[:author].present?
 
